@@ -19,6 +19,8 @@ public class Answer {
 
     private LocalDateTime createDate;
 
+    // @ManyToOne -> 기본이 Eager(즉시) / @ManyToOne (fetch = FetchType.LAZY)
+    // 변경시 fetch = FetchType.LAZY
     @ManyToOne
     private Question question;
 }

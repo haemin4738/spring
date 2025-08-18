@@ -24,6 +24,8 @@ public class Question {
 
     private LocalDateTime createDate;
 
+    // @OneToMany -> 기본이 Lazy(게으른) / @OneToMany(fetch = FetchType.EAGER)
+    // 변경시 fetch = FetchType.Eager
     @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Answer> answerList = new ArrayList<>();
 
@@ -37,6 +39,6 @@ public class Question {
         return answer;
     }
 
-//    @OneToMany -> 기본이 Lazy(게으른) / @OneToMany(fetch = FetchType.EAGER)
-//    @ManyToOne -> 기본이 Eager(즉시) / @ManyToOne (fetch = FetchType.LAZY)
+
+
 }
