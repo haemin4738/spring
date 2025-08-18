@@ -107,5 +107,20 @@ class QuestionRepositoryTest {
         answer.setCreateDate(LocalDateTime.now());
 
         answerRepository.save(answer);
+        assertThat(answer.getId()).isGreaterThan(0);
+    }
+
+    @Test
+    @DisplayName("답변 생성 by oneToMany")
+    @Transactional
+    void t9() {
+        Question question = questionRepository.findById(2).get();
+
+        int beforecount = question.getAnswerList().size();
+        Answer answer = question.addAnswer("네 자동으로 생성됩니다.");
+        assertThat(answer.getId()).isEqualTo(null);
+        int aftercount = question.getAnswerList().size();
+        assertThat(aftercount).isEqualTo(beforecount+1);
+
     }
 }
