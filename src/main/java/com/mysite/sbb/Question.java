@@ -37,6 +37,6 @@ public class Question {
         return answer;
     }
 
-//    @OneToMany -> 기본이 Lazy / @OneToMany(fetch = FetchType.EAGER)
-//    @ManyToOne -> 기본이 Eager / @ManyToOne (fetch = FetchType.LAZY)
+//    @OneToMany -> 기본이 Lazy(게으른) / @OneToMany(fetch = FetchType.EAGER)
+//    @ManyToOne -> 기본이 Eager(즉시) / @ManyToOne (fetch = FetchType.LAZY)
 }
