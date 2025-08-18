@@ -1,5 +1,6 @@
-package com.mysite.sbb;
+package com.mysite.sbb.question;
 
+import com.mysite.sbb.answer.Answer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,7 @@ public class Question {
 
     // @OneToMany -> 기본이 Lazy(게으른) / @OneToMany(fetch = FetchType.EAGER)
     // 변경시 fetch = FetchType.EAGER
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Answer> answerList = new ArrayList<>();
 
     public Answer addAnswer(String content) {

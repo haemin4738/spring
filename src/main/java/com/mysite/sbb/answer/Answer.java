@@ -1,5 +1,6 @@
-package com.mysite.sbb;
+package com.mysite.sbb.answer;
 
+import com.mysite.sbb.question.Question;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,6 @@ public class Answer {
 
     // @ManyToOne -> 기본이 Eager(즉시) / @ManyToOne (fetch = FetchType.LAZY)
     // 변경시 fetch = FetchType.LAZY
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Question question;
 }
