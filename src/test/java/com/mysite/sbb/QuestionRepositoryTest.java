@@ -38,7 +38,7 @@ class QuestionRepositoryTest {
     @DisplayName("findById")
     void t2() {
         Optional<Question> oq =  questionRepository.findById(1);
-
+        // SELECT * FROM question WHERE id = 1;
         if (oq.isPresent()) {
             Question q = oq.get();
 
@@ -50,13 +50,16 @@ class QuestionRepositoryTest {
     @DisplayName("findBySubject")
     void t3() {
         Question q = this.questionRepository.findBySubject("sbb가 무엇인가요?").get();
+        // SELECT * FROM question WHERE subject = 'sbb가 무엇인가요?'
         assertThat(q.getId()).isEqualTo(1);
-        }
+    }
 
     @Test
     @DisplayName("findBySubjectAndContent")
     void t4() {
-        Question q = this.questionRepository.findBySubjectAndContent("sbb가 무엇인가요?", "sbb에 대해서 알고 싶습니다.").get();
+        Question q = this.questionRepository.findBySubjectAndContent(
+                "sbb가 무엇인가요?", "sbb에 대해서 알고 싶습니다.").get();
+        // SELECT * FROM question WHERE subject = 'sbb가 무엇인가요?' AND content = 'sbb에 대해서 알고 싶습니다.'
         assertThat(q.getId()).isEqualTo(1);
     }
 
@@ -71,7 +74,7 @@ class QuestionRepositoryTest {
     @Test
     @DisplayName("수정")
     @Transactional
-    void t6() { // 가장 먼저 실행시키기 위해서 t6가 아닌 t0으로 메서드 변경
+    void t6() {
         Question question = questionRepository.findById(1).get();
         assertThat(question).isNotNull();
 
@@ -97,31 +100,33 @@ class QuestionRepositoryTest {
     @Test
     @DisplayName("답변 생성")
     @Transactional
-    void t8() {
+    void t8 () {
         Question question = questionRepository.findById(2).get();
 
         Answer answer = new Answer();
-
         answer.setContent("네 자동으로 생성됩니다.");
         answer.setQuestion(question);
         answer.setCreateDate(LocalDateTime.now());
-
         answerRepository.save(answer);
+
         assertThat(answer.getId()).isGreaterThan(0);
     }
 
     @Test
     @DisplayName("답변 생성 by oneToMany")
     @Transactional
-    void t9() {
+    void t9 () {
         Question question = questionRepository.findById(2).get();
 
-        int beforecount = question.getAnswerList().size();
-        Answer answer = question.addAnswer("네 자동으로 생성됩니다.");
-        assertThat(answer.getId()).isEqualTo(null);
-        int aftercount = question.getAnswerList().size();
-        assertThat(aftercount).isEqualTo(beforecount+1);
+        int beforeCount = question.getAnswerList().size();
 
+        Answer answer = question.addAnswer("네 자동으로 생성됩니다.");
+
+        assertThat(answer.getId()).isEqualTo(null);
+
+        int afterCount = question.getAnswerList().size();
+
+        assertThat(afterCount).isEqualTo(beforeCount + 1);
     }
 
     @Test
@@ -132,9 +137,10 @@ class QuestionRepositoryTest {
         assertThat(answer.getId()).isEqualTo(1);
     }
 
+
     @Test
     @DisplayName("답변 조회 by oneToMany")
-    @Transactional
+//    @Transactional
     void t11 () {
         Question question = questionRepository.findById(2).get();
 
@@ -143,5 +149,16 @@ class QuestionRepositoryTest {
 
         Answer answer = answers.get(0);
         assertThat(answer.getContent()).isEqualTo("네 자동으로 생성됩니다.");
+    }
+
+    @Test
+    @DisplayName("findAnswer by question")
+//    @Transactional
+    void t12() {
+        Question question = questionRepository.findById(2).get();
+
+        Answer answer = question.getAnswerList().get(0);
+
+        assertThat(answer.getId()).isEqualTo(1);
     }
 }
