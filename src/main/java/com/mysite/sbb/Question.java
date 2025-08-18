@@ -24,10 +24,10 @@ public class Question {
 
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Answer> answerList = new ArrayList<>();
 
-    public Answer addAnswer(String content){
+    public Answer addAnswer(String content) {
         Answer answer = new Answer();
         answer.setContent(content);
         answer.setQuestion(this);
@@ -36,4 +36,7 @@ public class Question {
 
         return answer;
     }
+
+//    @OneToMany -> 기본이 Lazy / @OneToMany(fetch = FetchType.EAGER)
+//    @ManyToOne -> 기본이 Eager / @ManyToOne (fetch = FetchType.LAZY)
 }
